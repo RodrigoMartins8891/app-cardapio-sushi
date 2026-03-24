@@ -1,51 +1,47 @@
-# Welcome to your Expo app 👋
+# 🍣 App Cardápio Japonês
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Um aplicativo de cardápio digital desenvolvido com **React Native** e **Expo**, focado em uma experiência de usuário fluida com navegação por categorias e busca em tempo real.
 
-## Get started
+## 🚀 Funcionalidades
 
-1. Install dependencies
+- **Navegação Superior (Top Tabs):** Menu deslizante com categorias (Roll, Sushi, Yakisoba, etc).
+- **Busca Inteligente:** Filtro dinâmico por nome de prato na tela inicial.
+- **Sugestões de Pratos:** Destaque automático para itens marcados como sugeridos no cardápio.
+- **Interface Personalizada:** Design temático em vermelho e branco com cards estilizados.
 
-   ```bash
-   npm install
-   ```
+## 🛠️ Tecnologias Utilizadas
 
-2. Start the app
+- [React Native](https://reactnative.dev)
+- [Expo Go](https://expo.dev)
+- [React Navigation (Material Top Tabs)](https://reactnavigation.org)
+- [JavaScript](https://mozilla.org)
 
-   ```bash
-   npx expo start
-   ```
+## 📂 Estrutura de Pastas
 
-In the output, you'll find options to open the app in a
+```text
+├── assets/             # Imagens dos produtos e logo
+├── componentes/        
+│   ├── inicio/         # Tela inicial com busca e sugestões
+│   ├── categoria/      # Tela dinâmica que filtra por categoria
+│   └── cardapio.js     # Base de dados (Array de objetos)
+├── utils/              
+│   └── screenOptions.js # Configurações visuais das abas
+└── App.js              # Configuração das rotas e navegação
+Use o código com cuidado.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+🏁 Como Executar o Projeto
+Instale as dependências:
+bash
+npm install
+Use o código com cuidado.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Inicie o servidor do Expo:
+bash
+npx expo start
+Use o código com cuidado.
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-"# app-cardapio-sushi" 
+Abra o app:
+Use o Expo Go no seu celular (escaneie o QR Code).
+Ou pressione a para abrir no emulador Android.
+📝 Licença
+Este projeto é para fins de estudo e aprendizado de desenvolvimento mobile.
