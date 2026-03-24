@@ -25,6 +25,7 @@ const cardapio = [
     categoria: "Roll",
     pratoSugerido: false,
     imagem: urumaki,
+    preco: 28.90,
   },
   {
     nome: "Uramaki (Atum)",
@@ -32,6 +33,7 @@ const cardapio = [
     categoria: "Roll",
     pratoSugerido: false,
     imagem: urumaki_atum,
+    preco: 30.50,
   },
   {
     nome: "Sushi (Salmão)",
@@ -39,6 +41,7 @@ const cardapio = [
     categoria: "Sushi",
     pratoSugerido: true,
     imagem: sushi,
+    preco: 22.00,
   },
   {
     nome: "Sushi (Atum)",
@@ -46,6 +49,7 @@ const cardapio = [
     categoria: "Sushi",
     pratoSugerido: false,
     imagem: sushi_atum,
+    preco: 24.50,
   },
   {
     nome: "Roll Tradicional",
@@ -53,22 +57,23 @@ const cardapio = [
     categoria: "Roll",
     pratoSugerido: false,
     imagem: roll,
+    preco: 26.00,
   },
   {
     nome: "Hot Filadelfia",
-    descricao:
-      "Empanado de alga crocante, arroz, salmão, cream cheese e cebolinha.",
+    descricao: "Empanado de alga crocante, arroz, salmão, cream cheese e cebolinha.",
     categoria: "Roll",
     pratoSugerido: false,
     imagem: hot,
+    preco: 32.00,
   },
   {
     nome: "Yakisoba (Frango)",
-    descricao:
-      "Macarrão oriental, frango, repolho, cenoura e brócolis americano.",
+    descricao: "Macarrão oriental, frango, repolho, cenoura e brócolis americano.",
     categoria: "Yakisoba",
     pratoSugerido: false,
     imagem: yakisoba_frango,
+    preco: 45.00,
   },
   {
     nome: "Yakisoba (Legumes)",
@@ -76,6 +81,7 @@ const cardapio = [
     categoria: "Yakisoba",
     pratoSugerido: false,
     imagem: yakisoba_legumes,
+    preco: 38.00,
   },
   {
     nome: "Yakitori (Ebi)",
@@ -83,6 +89,7 @@ const cardapio = [
     categoria: "Yakitori",
     pratoSugerido: false,
     imagem: yakitori_ebi,
+    preco: 18.00,
   },
   {
     nome: "Yakitori (Ika)",
@@ -90,6 +97,7 @@ const cardapio = [
     categoria: "Yakitori",
     pratoSugerido: false,
     imagem: yakitori_ika,
+    preco: 16.50,
   },
   {
     nome: "Temaki (Salmão)",
@@ -97,6 +105,7 @@ const cardapio = [
     categoria: "Temaki",
     pratoSugerido: false,
     imagem: temaki_salmao,
+    preco: 34.00,
   },
   {
     nome: "Temaki (Atum)",
@@ -104,6 +113,7 @@ const cardapio = [
     categoria: "Temaki",
     pratoSugerido: false,
     imagem: temaki_atum,
+    preco: 36.00,
   },
   {
     nome: "Sashimi (Salmão)",
@@ -111,20 +121,23 @@ const cardapio = [
     categoria: "Sashimi",
     pratoSugerido: true,
     imagem: sashimi_salmao,
+    preco: 42.00,
   },
   {
-    nome: "Sahimi (Atum)",
+    nome: "Sashimi (Atum)",
     descricao: "Fatias finas de atum cru.",
     categoria: "Sashimi",
     pratoSugerido: false,
     imagem: sashimi_atum,
+    preco: 45.00,
   },
   {
     nome: "Shimeji",
-    descricao: "Porção de cogumelos Shimeki na manteiga",
+    descricao: "Porção de cogumelos Shimeji na manteiga",
     categoria: "Cogumelos",
     pratoSugerido: false,
     imagem: shimeji,
+    preco: 35.00,
   },
   {
     nome: "Shitake",
@@ -132,6 +145,7 @@ const cardapio = [
     categoria: "Cogumelos",
     pratoSugerido: false,
     imagem: shitake,
+    preco: 39.00,
   },
   {
     nome: "Gyoza (Carne)",
@@ -139,6 +153,7 @@ const cardapio = [
     categoria: "Gyoza",
     pratoSugerido: true,
     imagem: gyoza,
+    preco: 25.00,
   },
   {
     nome: "Gyoza (Legumes)",
@@ -146,6 +161,7 @@ const cardapio = [
     categoria: "Gyoza",
     pratoSugerido: false,
     imagem: gyoza,
+    preco: 22.00,
   },
   {
     nome: "Tempurá (Camarão)",
@@ -153,6 +169,7 @@ const cardapio = [
     categoria: "Tempura",
     pratoSugerido: false,
     imagem: tempura_camarao,
+    preco: 48.00,
   },
   {
     nome: "Tempura (Salmão)",
@@ -160,6 +177,7 @@ const cardapio = [
     categoria: "Tempura",
     pratoSugerido: true,
     imagem: tempura_salmao,
+    preco: 44.00,
   },
 ];
 

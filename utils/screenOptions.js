@@ -4,10 +4,10 @@ const options = {
   
   tabBarStyle: {
     backgroundColor: '#f11635',
-    paddingTop: 10,
+    paddingTop: 15,
     elevation: 0, // Remove sombra no Android
     shadowColor: 'transparent', // Remove sombra no iOS
-    height: 60, // Ajuste a altura se precisar de mais espaço
+    height: 70, // Ajuste a altura se precisar de mais espaço
   },
 
   tabBarItemStyle: {
@@ -16,7 +16,7 @@ const options = {
   },
 
   tabBarLabelStyle: {
-    fontSize: 12,
+    fontSize: 13,
     color: '#ffffff',
     fontWeight: 'bold',
     textAlign: 'center',
