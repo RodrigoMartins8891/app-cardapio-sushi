@@ -1,22 +1,23 @@
-# 🍣 App Cardápio Japonês
+# 🍣 App de Cardápio Digital
 
-Um aplicativo de cardápio digital desenvolvido com **React Native** e **Expo**, focado em uma experiência de usuário fluida com navegação por categorias e busca em tempo real.
+Aplicação mobile desenvolvida com foco em exibir um **cardápio digital interativo**, permitindo navegação por categorias, busca de produtos e visualização de itens de forma prática.
 
 ## 🚀 Funcionalidades
 
-- **Navegação Superior (Top Tabs):** Menu deslizante com categorias (Roll, Sushi, Yakisoba, etc).
-- **Busca Inteligente:** Filtro dinâmico por nome de prato na tela inicial.
-- **Sugestões de Pratos:** Destaque automático para itens marcados como sugeridos no cardápio.
-- **Interface Personalizada:** Design temático em vermelho e branco com cards estilizados.
+* 🔍 Busca de produtos
+* 📂 Filtro por categorias
+* 📱 Interface intuitiva para navegação
+* 🛒 Estrutura preparada para carrinho (se aplicável)
+* 📋 Listagem dinâmica de itens
 
-## 🛠️ Tecnologias Utilizadas
+## 💻 Tecnologias utilizadas
 
-- [React Native](https://reactnative.dev)
-- [Expo Go](https://expo.dev)
-- [React Navigation (Material Top Tabs)](https://reactnavigation.org)
-- [JavaScript](https://mozilla.org)
+* React Native
+* JavaScript
+* Context API (gerenciamento de estado)
+* Expo (se estiver usando)
 
-## 📂 Estrutura de Pastas
+## 📂 Estrutura do projeto
 
 ```text
 ├── assets/             # Imagens dos produtos e logo
@@ -24,24 +25,53 @@ Um aplicativo de cardápio digital desenvolvido com **React Native** e **Expo**,
 │   ├── inicio/         # Tela inicial com busca e sugestões
 │   ├── categoria/      # Tela dinâmica que filtra por categoria
 │   └── cardapio.js     # Base de dados (Array de objetos)
+├── context/            # Gerenciamento de estado global
+├── data/               # Dados da aplicação
 ├── utils/              
 │   └── screenOptions.js # Configurações visuais das abas
-└── App.js              # Configuração das rotas e navegação
-Use o código com cuidado.
+├── App.js              # Configuração das rotas e navegação
+└── README.md
+```
 
-🏁 Como Executar o Projeto
-Instale as dependências:
-bash
+## ▶️ Como executar o projeto
+
+```bash
+# Clone o repositório
+git clone https://github.com/RodrigoMartins8891/NOME-DO-REPOSITORIO
+
+# Acesse a pasta
+cd NOME-DO-REPOSITORIO
+
+# Instale as dependências
 npm install
-Use o código com cuidado.
 
-Inicie o servidor do Expo:
-bash
-npx expo start
-Use o código com cuidado.
+# Execute o projeto
+npm start
+```
 
-Abra o app:
-Use o Expo Go no seu celular (escaneie o QR Code).
-Ou pressione a para abrir no emulador Android.
-📝 Licença
-Este projeto é para fins de estudo e aprendizado de desenvolvimento mobile.
+## 📱 Executar no celular
+
+* Instale o app **Expo Go**
+* Escaneie o QR Code gerado no terminal
+
+## 🎯 Objetivo do projeto
+
+Este projeto foi desenvolvido com o objetivo de praticar desenvolvimento mobile com **React Native**, simulando um sistema real de cardápio digital utilizado por restaurantes.
+
+## 📌 Melhorias futuras
+
+* Integração com backend/API
+* Implementação completa de carrinho de compras
+* Finalização de pedidos
+* Persistência de dados
+* Melhorias na interface (UI/UX)
+
+
+
+## 👨‍💻 Autor
+
+Rodrigo Martins de Oliveira
+Desenvolvedor Full Stack Júnior
+
+* GitHub: https://github.com/RodrigoMartins8891
+* LinkedIn: https://linkedin.com/in/rodrigo-martins-de-oliveira1988
