@@ -66,6 +66,11 @@ export default function App() {
             component={Categoria}
             initialParams={{ categoria: "tempura" }}
           />
+          <Aba.Screen
+            name="Bebidas"
+            component={Categoria}
+            initialParams={{ categoria: "bebidas" }}
+          />
         </Aba.Navigator>
       </NavigationContainer>
     </CartProvider>

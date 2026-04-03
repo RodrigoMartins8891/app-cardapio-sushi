@@ -17,6 +17,8 @@ import shitake from "../assets/imagens/shitake.jpg";
 import gyoza from "../assets/imagens/gyoza.jpg";
 import tempura_camarao from "../assets/imagens/tempura-camarao.jpg";
 import tempura_salmao from "../assets/imagens/tempura-salmao.jpg";
+import agua_mineral from "../assets/imagens/agua-mineral.jpg";
+import coca_cola from "../assets/imagens/coca-zero.jpg";
 
 const cardapio = [
   {
@@ -178,6 +180,22 @@ const cardapio = [
     pratoSugerido: true,
     imagem: tempura_salmao,
     preco: 44.00,
+  },
+  {
+    nome: "Agua Mineral",
+    descricao: "Água mineral sem gás.",
+    categoria: "Bebidas",
+    pratoSugerido: false,
+    imagem: agua_mineral,
+    preco: 5.00,
+  },
+  {
+    nome: "Coca-Cola",
+    descricao: "Refrigerante de cola.",
+    categoria: "Bebidas",
+    pratoSugerido: false,
+    imagem: coca_cola,
+    preco: 8.00,
   },
 ];
 

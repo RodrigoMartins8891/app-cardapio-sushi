@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "app-cardapio-sushi",
-    "slug": "app-cardapio-sushi",
+    "name": "Kikuti Sushi Delivery",
+    "slug": "KikutiSushiDelivery",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/imagens/icon.png",
+    "icon": "./assets/imagens/Logo do Kikuti Sushi Delivery.png",
     "scheme": "appcardapiosushi",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -12,14 +12,14 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.rodrigo.kikuti",
+      "permissions": [
+        "ACCESS_FINE_LOCATION"
+      ],
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/imagens/android-icon-foreground.png",
-        "backgroundImage": "./assets/imagens/android-icon-background.png",
-        "monochromeImage": "./assets/imagens/android-icon-monochrome.png"
-      },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+        "backgroundColor": "#ffffff",
+        "foregroundImage": "./assets/imagens/logo.png"
+      }
     },
     "web": {
       "output": "static",
@@ -30,8 +30,8 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "image": "./assets/imagens/logo.png",
+          "imageWidth": 1000,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
@@ -43,6 +43,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "1a3489fe-ba06-4e2f-9015-f7ef6bc02b43"
+      }
     }
   }
 }

@@ -9,14 +9,24 @@ import {
   TouchableOpacity,
   Modal,
   Linking,
+  Alert,
 } from "react-native";
 
 import cardapio from "../../data/cardapio";
 import { useCart } from "../../context/CartContext";
+import * as Location from "expo-location";
 
 export default function Inicio() {
+  const [cep, setCep] = useState("");
   const [busca, setBusca] = useState("");
+  const [rua, setRua] = useState("");
+  const [numero, setNumero] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [taxaEntrega, setTaxaEntrega] = useState(5); // pode mudar depois
   const [modalVisivel, setModalVisivel] = useState(false);
+  const { limparCarrinho } = useCart();
 
   const { carrinho, adicionarAoCarrinho, removerDoCarrinho, totalCarrinho } =
     useCart();
@@ -31,6 +41,17 @@ export default function Inicio() {
   const finalizarPedido = () => {
     if (carrinho.length === 0) return;
 
+    if (!rua || !numero || !bairro || !cidade) {
+      Alert.alert("Atenção", "Preencha todos os campos obrigatórios");
+      return;
+    }
+
+    const enderecoCompleto = `
+${rua}, ${numero}
+${bairro} - ${cidade}
+${complemento ? "Complemento: " + complemento : ""}
+`;
+
     const numeroWhatsApp = "5551985642953";
 
     const itensFormatados = carrinho
@@ -43,19 +64,139 @@ export default function Inicio() {
       )
       .join("\n");
 
-    const mensagem = `*Novo Pedido:*\n\n${itensFormatados}\n\n*Total: ${totalCarrinho.toLocaleString(
-      "pt-BR",
-      {
-        style: "currency",
-        currency: "BRL",
-      },
-    )}*`;
+    const totalFinal = totalCarrinho + taxaEntrega;
+
+    const mensagem = `*Novo Pedido:*\n\n${itensFormatados}\n\n📍 Endereço:\n${enderecoCompleto}\n\n🚚 Taxa de entrega: R$ ${taxaEntrega.toFixed(
+      2,
+    )}\n\n*Total: ${totalFinal.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    })}*`;
 
     const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
       mensagem,
     )}`;
 
     Linking.openURL(url);
+
+    limparCarrinho();
+    setRua("");
+    setNumero("");
+    setBairro("");
+    setCidade("");
+    setComplemento("");
+    setModalVisivel(false);
+
+    Alert.alert("Pedido enviado!", "Seu pedido foi enviado com sucesso.");
+  };
+  const pagarComPayPal = () => {
+    if (carrinho.length === 0) return;
+
+    if (!rua || !numero || !bairro || !cidade) {
+      Alert.alert("Atenção", "Preencha todos os campos obrigatórios");
+      return;
+    }
+
+    const total = (totalCarrinho + taxaEntrega).toFixed(2);
+    const emailPayPal = "rmartinsdeoliveira2@gmail.com";
+    const descricao = carrinho.map((item) => item.nome).join(", ");
+
+    const url = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${emailPayPal}&amount=${total}&currency_code=BRL&item_name=${encodeURIComponent(
+      descricao,
+    )}`;
+
+    Linking.openURL(url);
+
+    setTimeout(() => {
+      finalizarPedido();
+    }, 1500);
+  };
+  const pegarLocalizacao = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+
+    if (status !== "granted") {
+      Alert.alert("Permissão negada");
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+
+    const { latitude, longitude } = location.coords;
+
+    // 🔥 CALCULAR FRETE
+    calcularDistancia(latitude, longitude);
+
+    try {
+      // 🔥 CONVERTE LAT/LONG → ENDEREÇO
+      const endereco = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+
+      if (endereco.length > 0) {
+        const dados = endereco[0];
+        
+        setCep(dados.postalCode || "");
+        setRua(dados.street || "");
+        setNumero(dados.streetNumber || "");
+        setBairro(dados.district || dados.subregion || "");
+        setCidade(dados.city || dados.region || "");
+      }
+    } catch (error) {
+      Alert.alert("Erro ao obter endereço");
+    }
+  };
+  const RESTAURANTE = {
+    latitude: -29.9483,
+    longitude: -51.07927,
+  };
+  const calcularDistancia = (lat, lon) => {
+    const toRad = (value) => (value * Math.PI) / 180;
+
+    const R = 6371;
+    const dLat = toRad(RESTAURANTE.latitude - lat);
+    const dLon = toRad(RESTAURANTE.longitude - lon);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat)) *
+        Math.cos(toRad(RESTAURANTE.latitude)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distancia = R * c;
+
+    calcularFrete(distancia);
+  };
+  const calcularFrete = (distancia) => {
+    if (distancia < 3) setTaxaEntrega(5);
+    else if (distancia < 6) setTaxaEntrega(8);
+    else setTaxaEntrega(12);
+  };
+  const buscarCEP = async (cepDigitado) => {
+    setCep(cepDigitado);
+
+    if (cepDigitado.length < 8) return;
+
+    try {
+      const response = await fetch(
+        `https://viacep.com.br/ws/${cepDigitado}/json/`,
+      );
+      const data = await response.json();
+
+      if (data.erro) {
+        Alert.alert("CEP não encontrado");
+        return;
+      }
+
+      setRua(data.logradouro);
+      setBairro(data.bairro);
+      setCidade(data.localidade);
+    } catch (error) {
+      Alert.alert("Erro ao buscar CEP");
+    }
   };
   return (
     <View style={styles.container}>
@@ -68,7 +209,7 @@ export default function Inicio() {
             source={require("../../assets/imagens/logo.png")}
             style={styles.logo}
           />
-          <Text style={styles.tituloPrincipal}>CARDÁPIO JAPONÊS</Text>
+          <Text style={styles.tituloPrincipal}>Kikuti Sushi Delivery</Text>
         </View>
 
         <View style={styles.buscaContainer}>
@@ -121,6 +262,7 @@ export default function Inicio() {
             <Text style={styles.carrinhoQtd}>{carrinho.length} itens</Text>
             <Text style={styles.carrinhoTexto}>Ver Carrinho</Text>
           </View>
+
           <Text style={styles.carrinhoTotal}>
             {totalCarrinho.toLocaleString("pt-BR", {
               style: "currency",
@@ -145,7 +287,8 @@ export default function Inicio() {
               </TouchableOpacity>
             </View>
 
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {/* ITENS */}
               {carrinho.map((item, index) => (
                 <View key={index} style={styles.itemCarrinho}>
                   <View style={{ flex: 1 }}>
@@ -165,12 +308,67 @@ export default function Inicio() {
                   </TouchableOpacity>
                 </View>
               ))}
+
+              {/* ENDEREÇO */}
+              <Text
+                style={{ fontWeight: "bold", marginTop: 20, marginBottom: 10 }}
+              >
+                Endereço de entrega:
+              </Text>
+              <TextInput
+                style={styles.inputEndereco}
+                placeholder="Digite seu CEP"
+                keyboardType="numeric"
+                value={cep}
+                onChangeText={buscarCEP}
+              />
+              <TextInput
+                style={styles.inputEndereco}
+                placeholder="Rua"
+                value={rua}
+                onChangeText={setRua}
+              />
+              <TextInput
+                style={styles.inputEndereco}
+                placeholder="Número"
+                value={numero}
+                onChangeText={setNumero}
+              />
+              <TextInput
+                style={styles.inputEndereco}
+                placeholder="Bairro"
+                value={bairro}
+                onChangeText={setBairro}
+              />
+              <TextInput
+                style={styles.inputEndereco}
+                placeholder="Cidade"
+                value={cidade}
+                onChangeText={setCidade}
+              />
+              <TextInput
+                style={styles.inputEndereco}
+                placeholder="Complemento"
+                value={complemento}
+                onChangeText={setComplemento}
+              />
+
+              {/* ENTREGA */}
+              <Text style={{ fontSize: 16, marginTop: 10 }}>
+                Taxa: R$ {taxaEntrega.toFixed(2)}
+              </Text>
+              <TouchableOpacity
+                style={{ marginBottom: 10 }}
+                onPress={pegarLocalizacao}
+              >
+                <Text style={{ color: "blue" }}>📍 Usar minha localização</Text>
+              </TouchableOpacity>
             </ScrollView>
 
             <View style={styles.modalFooter}>
               <Text style={styles.totalTexto}>
                 Total:{" "}
-                {totalCarrinho.toLocaleString("pt-BR", {
+                {(totalCarrinho + taxaEntrega).toLocaleString("pt-BR", {
                   style: "currency",
                   currency: "BRL",
                 })}
@@ -179,7 +377,16 @@ export default function Inicio() {
                 style={styles.botaoFinalizar}
                 onPress={finalizarPedido}
               >
-                <Text style={styles.textoBotaoFinalizar}>Finalizar Pedido</Text>
+                <Text style={styles.textoBotaoFinalizar}>
+                  Pedir via WhatsApp
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.botaoFinalizar, { backgroundColor: "#0070ba" }]}
+                onPress={pagarComPayPal}
+              >
+                <Text style={styles.textoBotaoFinalizar}>Pagar com PayPal</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -236,7 +443,6 @@ const styles = StyleSheet.create({
   descricaoProduto: { color: "#555", fontSize: 11, marginTop: 4 },
   precoProduto: { color: "#e74c3c", fontWeight: "bold", marginTop: 5 },
 
-  // Estilos compartilhados para Carrinho e Modal
   barraCarrinho: {
     position: "absolute",
     bottom: 20,
@@ -268,7 +474,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     padding: 20,
-    height: "70%",
+    height: "90%",
   },
   modalHeader: {
     flexDirection: "row",
@@ -303,12 +509,12 @@ const styles = StyleSheet.create({
   textoRemover: { color: "#e74c3c", fontSize: 10, fontWeight: "bold" },
   modalFooter: {
     marginTop: 10,
-    paddingTop: 15,
+    paddingTop: 10,
     borderTopWidth: 1,
     borderTopColor: "#ddd",
   },
   totalTexto: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
     textAlign: "right",
     marginBottom: 15,
@@ -316,10 +522,18 @@ const styles = StyleSheet.create({
   },
   botaoFinalizar: {
     backgroundColor: "#27ae60",
-    padding: 15,
+    padding: 12,
     borderRadius: 12,
     alignItems: "center",
     marginBottom: 10,
   },
-  textoBotaoFinalizar: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+  textoBotaoFinalizar: { color: "#fff", fontSize: 14, fontWeight: "bold" },
+
+  inputEndereco: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+  },
 });
